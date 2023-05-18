@@ -8,7 +8,7 @@ from pymongo.server_api import ServerApi
 
 import json
 
-uri = "mongodb+srv://adsoft:adsoft-sito@cluster0.kzghgph.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb+srv://beto:admin@cluster0.xtwgr69.mongodb.net/?retryWrites=true&w=majority"
 
 # Create a new client and connect to the server
 #client = MongoClient(uri, server_api=ServerApi('1'))
@@ -23,16 +23,16 @@ uri = "mongodb+srv://adsoft:adsoft-sito@cluster0.kzghgph.mongodb.net/?retryWrite
 # Connect to MongoDB and pizza_data database
 
 try:
-    client = MongoClient(uri, server_api=ServerApi('1'))
+    client = MongoClient(uri)
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
 
-    db = client.memes
+    db = client.tkdapp
     print("MongoDB Connected successfully!")
 except:
-    print("Could not connect to MongoDB")
+    print("Could not connect to MongoDB Aquiii")
 
-consumer = KafkaConsumer('test',bootstrap_servers=['my-kafka-0.my-kafka-headless.kafka-adsoftsito.svc.cluster.local:9092'])
+consumer = KafkaConsumer('test',bootstrap_servers=['my-kafka-0.my-kafka-headless.btoarriola.svc.cluster.local:9092'])
 # Parse received data from Kafka
 for msg in consumer:
     record = json.loads(msg.value)
@@ -41,9 +41,9 @@ for msg in consumer:
 
     # Create dictionary and ingest data into MongoDB
     try:
-       meme_rec = {'name':name }
-       print (meme_rec)
-       meme_id = db.memes_info.insert_one(meme_rec)
-       print("Data inserted with record ids", meme_id)
+       tkdapp_rec = {'name':name }
+       print (tkdapp_rec)
+       tkdapp_id = db.tkdapp_info.insert_one(tkdapp_rec)
+       print("Data inserted with record ids", tkdapp_id)
     except:
        print("Could not insert into MongoDB")
