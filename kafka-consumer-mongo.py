@@ -41,9 +41,19 @@ for msg in consumer:
 
     # Create dictionary and ingest data into MongoDB
     try:
-       tkdapp_rec = {'name':name }
-       print (tkdapp_rec)
-       tkdapp_id = db.tkdapp_info.insert_one(tkdapp_rec)
-       print("Data inserted with record ids", tkdapp_id)
-    except:
-       print("Could not insert into MongoDB")
+       agg_result= db.memes_info.aggregate(
+       [{
+         "$group" : 
+         {  "_id" : "$name", 
+            "n"    : {"$sum": 1}
+         }}
+       ])
+       db.memes_summary.delete_many({})
+       for i in agg_result:
+         print(i)
+         summary_id = db.memes_summary.insert_one(i)
+         print("Summary inserted with record ids", summary_id)
+
+    except Exception as e:
+       print(f'group by caught {type(e)}: ')
+       print(e)
