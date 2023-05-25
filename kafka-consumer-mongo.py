@@ -37,17 +37,24 @@ consumer = KafkaConsumer('test',bootstrap_servers=['my-kafka-0.my-kafka-headless
 for msg in consumer:
     record = json.loads(msg.value)
     print(record)
-    name = record['name']
+    userid = record['userid']
+    objectid = record['objectid']
+    reactionid = record['reactionid']
+
 
     # Create dictionary and ingest data into MongoDB
     try:
        agg_result= db.tkdapp_info.aggregate(
        [{
-         "$group" : 
-         {  "_id" : "$name", 
-            "n"    : {"$sum": 1}
-         }}
-       ])
+         "$group": {
+            "_id": {
+                "userid": "$userid",
+                "objectid": "$objectid",
+                "reactionid": "$reactionid"
+                },
+            "n": {"$sum": 1}
+            }}
+        ])
        db.tkdapp_summary.delete_many({})
        for i in agg_result:
          print(i)
