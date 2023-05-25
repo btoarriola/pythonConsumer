@@ -44,23 +44,10 @@ for msg in consumer:
 
     # Create dictionary and ingest data into MongoDB
     try:
-       agg_result= db.tkdapp_info.aggregate(
-       [{
-         "$group": {
-            "_id": {
-                "userid": "$userid",
-                "objectid": "$objectid",
-                "reactionid": "$reactionid"
-                },
-            "n": {"$sum": 1}
-            }}
-        ])
-       db.tkdapp_summary.delete_many({})
-       for i in agg_result:
-         print(i)
-         summary_id = db.tkdapp_summary.insert_one(i)
-         print("Summary inserted with record ids", summary_id)
+        tkdapp_rec = {'userid': userid, 'objectid': objectid, 'reactionid': reactionid}
+        print(tkdapp_rec)
+        tkdapp_id = db.tkdapp_info.insert_one(tkdapp_rec)
+        print("Data inserted with record ids", tkdapp_id)
+    except:
+        print("Could not insert into MongoDB")
 
-    except Exception as e:
-       print(f'group by caught {type(e)}: ')
-       print(e)
