@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
 import json
+import subprocess
 
 uri = "mongodb+srv://beto:admin@cluster0.xtwgr69.mongodb.net/?retryWrites=true&w=majority"
 
@@ -40,6 +41,7 @@ for msg in consumer:
     userid = record['userid']
     objectid = record['objectid']
     reactionid = record['reactionid']
+    print("hola :)")
 
 
     # Create dictionary and ingest data into MongoDB
@@ -48,6 +50,9 @@ for msg in consumer:
         print(tkdapp_rec)
         tkdapp_id = db.tkdapp_info.insert_one(tkdapp_rec)
         print("Data inserted with record ids", tkdapp_id)
-    except:
+
+        subprocess.call(['sh', './test.sh'])
+    except Exception as e:
         print("Could not insert into MongoDB")
+        print(e)
 
