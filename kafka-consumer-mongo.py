@@ -29,11 +29,11 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
 
     db = client.tkdapp
-    print("MongoDB Connected successfully!")
+    print("MongoDB Connected successfully todo bien hasta aqui!")
 except:
     print("Could not connect to MongoDB Aquiii")
 
-consumer = KafkaConsumer('test',bootstrap_servers=['my-kafka-0.my-kafka-headless.btoarriola.svc.cluster.local:9092'])
+consumer = KafkaConsumer('reaction',bootstrap_servers=['my-kafka-0.my-kafka-headless.btoarriola.svc.cluster.local:9092'])
 # Parse received data from Kafka
 for msg in consumer:
     record = json.loads(msg.value)
