@@ -38,15 +38,12 @@ consumer = KafkaConsumer('reaction',bootstrap_servers=['my-kafka-0.my-kafka-head
 for msg in consumer:
     record = json.loads(msg.value)
     print(record)
-    userid = record['userid']
-    objectid = record['objectid']
-    reactionid = record['reactionid']
-    print("hola :)")
+    name = record['name']
 
 
     # Create dictionary and ingest data into MongoDB
     try:
-        tkdapp_rec = {'userid': userid, 'objectid': objectid, 'reactionid': reactionid}
+        tkdapp_rec = {'name': name}
         print(tkdapp_rec)
         tkdapp_id = db.tkdapp_info.insert_one(tkdapp_rec)
         print("Data inserted with record ids", tkdapp_id)
